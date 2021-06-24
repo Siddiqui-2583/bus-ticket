@@ -1,62 +1,42 @@
-const plus1 = document.getElementById("fir");
-// const unitPrice1 = getUnitPrice("noOfProduct1","price1");
-// const unitPrice2 = getUnitPrice("noOfProduct2","price2");
-// console.log(unitPrice2);
-plus1.addEventListener("click", function () {
-  updatePrice("noOfProduct1", "price1", 1, 1219);
+firstClassPlus.addEventListener("click", function () {
+  updateCost("firstClass",1);
+})
+firstClassMinus.addEventListener("click", function () {
+  if (getValueById("firstClass")) {
+    updateCost("firstClass", -1);
+  }
 });
-minus1.addEventListener("click", function () {
-  updatePrice("noOfProduct1", "price1", -1, 1219);
+economyPlus.addEventListener("click", function () {
+  updateCost("economy", 1);
 });
-clearButton1.addEventListener("click", function () {
-  clearProduct("noOfProduct1", "price1");
-});
-plus2.addEventListener("click", function () {
-  updatePrice("noOfProduct2", "price2", 1, 59);
-});
-minus2.addEventListener("click", function () {
-  updatePrice("noOfProduct2", "price2", -1, 59);
-});
-clearButton2.addEventListener("click", function () {
-  clearProduct("noOfProduct2", "price2");
+economyMinus.addEventListener("click", function () {
+  if (getValueById("economy")) {
+    updateCost("economy", -1);
+  }
 });
 
-function updatePrice(noOfProductId, priceId, sign, unitPrice) {
-  const noOfProduct = getInputNumber(noOfProductId);
-  const productPrice = getSpanNumber(priceId);
-  const subtotal = getSpanNumber("subtotal");
-  //var unitPrice=0;
-  // const unitPrice = getUnitPrice(noOfProductId,priceId);
-  // if(priceId = "price1"){
-  //     unitPrice = unitPrice1;
-  // }
-  // if(priceId = "price2"){
-  //     unitPrice = unitPrice2;
-  // }
-
-  document.getElementById(noOfProductId).value = noOfProduct + sign;
-  document.getElementById(priceId).innerText = productPrice + sign * unitPrice;
+function updateCost(ticketClass, sign) {
+  let unitPrice = 0;
+  document.getElementById(ticketClass).value = getValueById(ticketClass) + sign;
+  if (ticketClass == "firstClass") {
+    unitPrice = 150;
+  } else {
+    unitPrice = 100;
+  }
+  let subtotal = getInnerTextById("subtotal");
   document.getElementById("subtotal").innerText = subtotal + sign * unitPrice;
-  document.getElementById("total").innerText = subtotal + sign * unitPrice;
+  document.getElementById("vat").innerText = getInnerTextById("subtotal") * 0.1;
+  document.getElementById("total").innerText = getInnerTextById("subtotal") + getInnerTextById("vat")
 }
-function getInputNumber(id) {
+
+function getValueById(id) {
   const String = document.getElementById(id).value;
   const number = parseFloat(String);
   return number;
 }
 
-function getSpanNumber(id) {
+function getInnerTextById(id) {
   const String = document.getElementById(id).innerText;
   const number = parseFloat(String);
   return number;
-}
-function clearProduct(noOfProductId, priceId) {
-  const noOfProduct = getInputNumber(noOfProductId);
-  const productPrice = getSpanNumber(priceId);
-  const subtotal = getSpanNumber("subtotal");
-
-  document.getElementById(noOfProductId).value = 0;
-  document.getElementById(priceId).innerText = 0;
-  document.getElementById("subtotal").innerText = subtotal - productPrice;
-  document.getElementById("total").innerText = subtotal - productPrice;
 }
